@@ -1,4 +1,4 @@
-import { Moon } from 'lucide-react'
+import ThemeToggleButton from './components/theme-toggle-button'
 import { Card } from "./components/ui/card"
 
 type AppProps = {
@@ -8,8 +8,9 @@ type AppProps = {
 const App: React.FC<AppProps> = ({children}) => {
   return (
     <div className='h-screen w-screen p-0 flex justify-center items-center'>
-      <Card className="h-[95%] w-[95%] p-0 flex justify-center items-center relative">
-          <Moon fill='black' className='absolute top-4 right-4 h-5 w-5 cursor-pointer' />
+      <Card className="h-[95%] w-[95%] p-0 flex justify-center items-center relative shadow-lg">
+          {/* <Moon fill='black' className='absolute top-3 right-4 h-5 w-5 cursor-pointer' /> */}
+          <ThemeToggleButton className='absolute top-3 right-4'/>
           {children}
       </Card>
     </div>
