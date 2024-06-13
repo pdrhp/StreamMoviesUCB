@@ -66,3 +66,27 @@
     @apply text-[0.4rem] sm:text-[0.6rem] lg:text-xs xl:text-xl 2xl:text-2xl font-montserrat ;
   }
 }
+
+
+*::-webkit-scrollbar {
+  background-color: var(--background);
+  width: 3px;
+}
+
+/* background of the scrollbar except button or resizer */
+*::-webkit-scrollbar-track {
+  background-color: var(--background);
+}
+
+/* scrollbar itself */
+*::-webkit-scrollbar-thumb {
+  background-color: #babac0;
+  border-radius: 16px;
+  width: 2px;
+  border: 1px solid var(--primary);
+}
+
+/* set button(top and bottom of the scrollbar) */
+*::-webkit-scrollbar-button {
+  display:none;
+}
