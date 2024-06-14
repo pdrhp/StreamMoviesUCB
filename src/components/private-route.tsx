@@ -12,12 +12,13 @@ type PrivateRouteProps = {
 }
 
 const PrivateRoute:React.FC<PrivateRouteProps> = ({ element }) => {
-    const {user} = useAuth();
+    const {user, triggerBlockLogin} = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
         if (!user) {
             navigate('/login')
+            triggerBlockLogin();
         }
     }, [user])
 
