@@ -3,6 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 import { useAuth } from '@/contexts/auth-context'
 import User from '@/interfaces/User'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
@@ -20,9 +21,16 @@ const formLoginSchema = z.object({
 
 const LoginForm = () => {
 
-    const {setUser} = useAuth();
+    const {setUser, user} = useAuth();
 
     const navigate = useNavigate();
+
+
+    useEffect(() => {
+        if(user){
+            navigate('/');
+        }
+    }, [user])
 
     const loginForm = useForm<z.infer<typeof formLoginSchema>>({
         resolver: zodResolver(formLoginSchema),
