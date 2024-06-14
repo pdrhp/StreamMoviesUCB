@@ -2,6 +2,7 @@ import { authUser } from '@/services/auth-service'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 import { z } from 'zod'
 import FormInput from './form-input'
 import { Button } from './ui/button'
@@ -34,8 +35,19 @@ const LoginForm = () => {
                 navigate('/');
             }
 
-        } catch (error) {
-            console.log(error);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any ) {
+            if(error.response.status === 401){
+                toast.error('Usuário ou senha inválidos', {
+                    richColors: true,
+                    position: 'top-center',
+                    style: {
+                        backgroundColor: '#3b0c09'
+                    }
+                })
+            }
+            
+
         }
     }
 
