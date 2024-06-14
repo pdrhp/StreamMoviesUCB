@@ -2,7 +2,8 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 
 const isAuthenticated = () => {
-    return !!localStorage.getItem('status');
+    return !!localStorage.getItem('user');
+    
 }
 
 type PrivateRouteProps = {

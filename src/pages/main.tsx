@@ -1,8 +1,9 @@
 import AddFilmeModal from "@/components/add-filme-modal";
+import SearchFilmeModal from "@/components/search-filme-modal";
 import { Button } from "@/components/ui/button";
 import { Plus, Search } from "lucide-react";
 import { Outlet } from "react-router-dom";
-
+  
 const MainPage = () => {
   return (
     <div className="h-full w-full flex flex-col rounded-lg overflow-hidden">
@@ -19,9 +20,11 @@ const MainPage = () => {
                 <Plus size={20} />
               </Button>
             </AddFilmeModal>
-            <Button className="" variant={"outline"}>
-              <Search size={20} />
-            </Button>
+            <SearchFilmeModal>
+              <Button className="" variant={"outline"}>
+                <Search size={20} />
+              </Button>
+            </SearchFilmeModal>
           </div>
         </div>
       </div>

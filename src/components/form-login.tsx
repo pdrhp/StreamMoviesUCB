@@ -1,5 +1,8 @@
 import { authUser } from '@/services/auth-service'
 import { zodResolver } from '@hookform/resolvers/zod'
+
+import { useAuth } from '@/contexts/auth-context'
+import User from '@/interfaces/User'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
@@ -7,6 +10,7 @@ import { z } from 'zod'
 import FormInput from './form-input'
 import { Button } from './ui/button'
 import { Form } from './ui/form'
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 
 const formLoginSchema = z.object({
     email: z.string({required_error: 'Campo obrigatório'}).min(5, 'O nome de usuário deve ter no mínimo 5 caracteres').email() ,
@@ -15,6 +19,8 @@ const formLoginSchema = z.object({
 
 
 const LoginForm = () => {
+
+    const {setUser} = useAuth();
 
     const navigate = useNavigate();
 
@@ -31,7 +37,11 @@ const LoginForm = () => {
             const response = await authUser(loginData.email, loginData.password);
 
             if(response.status === 200){
-                localStorage.setItem('status', 'logado')
+                const user: User = response.data;
+                
+                localStorage.setItem('user', JSON.stringify(user));
+                setUser(user);
+                
                 navigate('/');
             }
 
