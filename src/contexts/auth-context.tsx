@@ -10,9 +10,9 @@ import { toast } from "sonner";
 
 interface AuthContextType {
   user: User | undefined;
-  setUser: React.Dispatch<React.SetStateAction<User | undefined>>
+  setUser: React.Dispatch<React.SetStateAction<User | undefined>>;
   logout: () => void;
-  triggerBlockLogin: () => void 
+  triggerBlockLogin: () => void;
 }
 
 interface AuthProviderProps {
@@ -21,55 +21,48 @@ interface AuthProviderProps {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
+const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const [user, setUser] = useState<User | undefined>(undefined);
+  const [blockedLoginTry, setBlockedLoginTry] = useState<boolean>(false);
+  const loggedUserString = localStorage.getItem("user");
 
-
-const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
-    const [user, setUser] = useState<User | undefined>(undefined);
-    const [blockedLoginTry, setBlockedLoginTry] = useState<boolean>(false);
-
-
-    const triggerBlockLogin = () => {
+  const triggerBlockLogin = () => {
+    if (!loggedUserString) {
       setBlockedLoginTry(!blockedLoginTry);
       setBlockedLoginTry(!blockedLoginTry);
     }
+  };
 
-    useEffect(() => {
-
-      const loggedUserString = localStorage.getItem('user');
-
-
-      if(loggedUserString){
-        const loggedUser: User = JSON.parse(loggedUserString);
-        setUser(loggedUser)
-        return;
-      }
-
-    }, [])
-
-    useEffect(() => {
-      if(blockedLoginTry){
-        toast.error("É necessario efetuar o login!", {
-          style: {
-            backgroundColor: '#3b0c09'
-          }
-        })
-      }
-    }, [blockedLoginTry])
-
-    const logout = () => {
-      setUser(undefined);
-      localStorage.removeItem('user');
+  useEffect(() => {
+    if (loggedUserString) {
+      const loggedUser: User = JSON.parse(loggedUserString);
+      setUser(loggedUser);
+      return;
     }
+  }, []);
 
-    return (
-      <AuthContext.Provider value={{ user, setUser, logout, triggerBlockLogin}}>
-        {children}
-      </AuthContext.Provider>
-         
-    )
-}
+  useEffect(() => {
+    if (blockedLoginTry) {
+      toast.error("É necessario efetuar o login!", {
+        style: {
+          backgroundColor: "#3b0c09",
+        },
+        position: "top-center",
+      });
+    }
+  }, [blockedLoginTry]);
 
+  const logout = () => {
+    setUser(undefined);
+    localStorage.removeItem("user");
+  };
 
+  return (
+    <AuthContext.Provider value={{ user, setUser, logout, triggerBlockLogin }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
 
 const useAuth = () => {
   const context = useContext(AuthContext);
@@ -82,10 +75,4 @@ const useAuth = () => {
 };
 
 export { AuthProvider, useAuth };
-
-
-
-
-
-
 

@@ -1,3 +1,4 @@
+import { GENEROS } from "@/constants/generos";
 import { useSaveFilme } from "@/hooks/useSaveFilme";
 import Filme from "@/interfaces/Filme";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -67,28 +68,6 @@ const FilmeForm: React.FC<FilmeFormProps> = ({actualFilme}) => {
   const [roteiristaInput, setRoteiristaInput] = useState("");
 
   const { getValues, setValue, handleSubmit } = FilmeForm;
-
-  const generos = [
-    "Ação",
-    "Animação",
-    "Aventura",
-    "Biografia",
-    "Comédia",
-    "Crime",
-    "Documentário",
-    "Drama",
-    "Família",
-    "Fantasia",
-    "Faroeste",
-    "Ficção científica",
-    "Guerra",
-    "História",
-    "Mistério",
-    "Musical",
-    "Romance",
-    "Suspense",
-    "Terror",
-  ];
 
   const handleGeneroClick = (genero: string) => {
     if (getValues().genero.includes(genero)) {
@@ -173,7 +152,7 @@ const FilmeForm: React.FC<FilmeFormProps> = ({actualFilme}) => {
           </div>
           <FormLabel>Genero</FormLabel>
           <div className="w-full border flex p-1 flex-wrap justify-center gap-2 rounded-lg">
-            {generos.map((genero, index) => (
+            {GENEROS.map((genero, index) => (
               <Toggle
                 defaultPressed={getValues().genero.includes(genero)}
                 onClick={() => handleGeneroClick(genero)}
@@ -224,7 +203,7 @@ const FilmeForm: React.FC<FilmeFormProps> = ({actualFilme}) => {
                   </h4>
                   {getValues().roteiristas.map((roteirista, index) => (
                     <>
-                      <div key={index} className="text-sm">
+                      <div key={`${roteirista}-${index}`} className="text-sm">
                         {roteirista}
                       </div>
                       <Separator className="my-2" />
