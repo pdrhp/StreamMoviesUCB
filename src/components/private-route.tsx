@@ -1,9 +1,10 @@
-import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/auth-context';
+import User from '@/interfaces/User';
+import React, { useEffect } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 
-const isAuthenticated = () => {
-    return !!localStorage.getItem('user');
-    
+const isAuthenticated = (user: User | undefined) => {
+    return !!user;
 }
 
 type PrivateRouteProps = {
@@ -11,7 +12,16 @@ type PrivateRouteProps = {
 }
 
 const PrivateRoute:React.FC<PrivateRouteProps> = ({ element }) => {
-    return isAuthenticated() ? element : <Navigate to="/login" />;
+    const {user} = useAuth();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!user) {
+            navigate('/login')
+        }
+    }, [user])
+
+    return isAuthenticated(user) ? element : <Navigate to="/login" />;
 };
 
 export default PrivateRoute;

@@ -1,5 +1,5 @@
 import Filme from "@/interfaces/Filme";
-import { Pencil, X } from "lucide-react";
+import { Pencil, Play, X } from "lucide-react";
 import React from "react";
 import notFoundImage from "../assets/no-img.jpg";
 import ConfirmActionDialog from "./confirm-action-dialog";
@@ -11,12 +11,19 @@ type FilmeDetailProps = {
   editModeFunction: () => void;
 };
 
-const FilmeDetail: React.FC<FilmeDetailProps> = ({ filme, editModeFunction }) => {
+const FilmeDetail: React.FC<FilmeDetailProps> = ({
+  filme,
+  editModeFunction,
+}) => {
   return (
     <div className="h-[98%] max-h-[38rem] rounded-md flex">
       <div className="w-[70%] p-2 flex flex-col">
         <div className="h-[10%] w-full flex  gap-3">
-          <Button variant={"outline"} onClick={() => editModeFunction()} className="h-12 w-12">
+          <Button
+            variant={"outline"}
+            onClick={() => editModeFunction()}
+            className="h-12 w-12"
+          >
             <Pencil className="h-6 w-6" />
           </Button>
           <ConfirmActionDialog>
@@ -24,6 +31,9 @@ const FilmeDetail: React.FC<FilmeDetailProps> = ({ filme, editModeFunction }) =>
               <X className="h-6 w-6" />
             </Button>
           </ConfirmActionDialog>
+          <Button variant={"outline"} className="h-12 w-12">
+            <Play className="h-6 w-6" />
+          </Button>
         </div>
         <div className="h-[90%] flex flex-col gap-2 flex-wrap ">
           <FieldTitleValue title="Titulo" value={filme.titulo} />

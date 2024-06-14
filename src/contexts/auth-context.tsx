@@ -9,6 +9,7 @@ import {
 interface AuthContextType {
   user: User | undefined;
   setUser: React.Dispatch<React.SetStateAction<User | undefined>>
+  logout: () => void;
 }
 
 interface AuthProviderProps {
@@ -21,8 +22,15 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
     const [user, setUser] = useState<User | undefined>(undefined);
+
+
+    const logout = () => {
+      setUser(undefined);
+      localStorage.removeItem('user');
+    }
+
     return (
-      <AuthContext.Provider value={{ user, setUser}}>
+      <AuthContext.Provider value={{ user, setUser, logout}}>
         {children}
       </AuthContext.Provider>
          

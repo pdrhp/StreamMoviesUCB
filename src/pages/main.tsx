@@ -1,10 +1,15 @@
 import AddFilmeModal from "@/components/add-filme-modal";
 import SearchFilmeModal from "@/components/search-filme-modal";
 import { Button } from "@/components/ui/button";
-import { Plus, Search } from "lucide-react";
+import { useAuth } from "@/contexts/auth-context";
+import { LogOut, Plus, Search } from "lucide-react";
 import { Outlet } from "react-router-dom";
-  
+
 const MainPage = () => {
+
+  const {logout} = useAuth();
+
+
   return (
     <div className="h-full w-full flex flex-col rounded-lg overflow-hidden">
       <div className="w-full border-b p-2 rounded-t-lg">
@@ -25,6 +30,9 @@ const MainPage = () => {
                 <Search size={20} />
               </Button>
             </SearchFilmeModal>
+            <Button onClick={() => logout()} variant={"outline"}>
+              <LogOut size={20} />
+            </Button>
           </div>
         </div>
       </div>
