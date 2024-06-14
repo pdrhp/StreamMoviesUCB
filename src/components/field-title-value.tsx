@@ -5,7 +5,6 @@ type FieldTitleValueProps = {
 }
 
 const FieldTitleValue: React.FC<FieldTitleValueProps> = ({title, value}) => {
-    console.log(typeof(value))
 
     if(value === null){
         return (

@@ -14,6 +14,8 @@ interface RegisterData {
 export const authUser = async (email: string, password: string) => {
     const response = await client.post('/login', {email, password});
 
+    console.log(response.data);
+
     return response;
 }
 

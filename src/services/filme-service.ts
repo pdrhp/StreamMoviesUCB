@@ -8,3 +8,14 @@ export const getAllFilmes = async () => {
     return response.data;
 }
 
+
+
+
+
+export const saveFilme = async (filme: Filme) => {
+    const response = await client.post('/movies', filme);
+
+    console.log(response);
+
+    return response.data;
+}

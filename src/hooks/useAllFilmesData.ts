@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 function useAllFilmesData(){
     const query = useQuery({
         queryFn: getAllFilmes,
-        queryKey: ['livros-data']
+        queryKey: ['filmes-data']
     }) 
 
 

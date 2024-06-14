@@ -1,5 +1,5 @@
 interface Filme  {
-    id: number,
+    id?: string,
     titulo: string | null,
     ano: number,
     duracaoEmMinutos: number,
@@ -12,6 +12,7 @@ interface Filme  {
     videoUrl: string | null,
     category: string | null
 }
+
 
 
 export default Filme;

@@ -1,6 +1,8 @@
+import { useSaveFilme } from "@/hooks/useSaveFilme";
+import Filme from "@/interfaces/Filme";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus } from "lucide-react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { ControllerRenderProps, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "./ui/button";
@@ -18,6 +20,7 @@ import { Separator } from "./ui/separator";
 import { Toggle } from "./ui/toggle";
 
 const FilmeFormSchema = z.object({
+  id: z.string().optional(),
   titulo: z.string(),
   ano: z.number(),
   duracaoEmMinutos: z.number(),
@@ -31,22 +34,32 @@ const FilmeFormSchema = z.object({
   category: z.string(),
 });
 
-type FilmeFormSchemaType = z.infer<typeof FilmeFormSchema>;
+export type FilmeFormSchemaType = z.infer<typeof FilmeFormSchema>;
 
-const FilmeForm = () => {
+type FilmeFormProps = {
+  actualFilme?: Filme;
+}
+
+const FilmeForm: React.FC<FilmeFormProps> = ({actualFilme}) => {
+
+  const {mutate} = useSaveFilme();
+
+  console.log(actualFilme);
+
   const FilmeForm = useForm<FilmeFormSchemaType>({
     resolver: zodResolver(FilmeFormSchema),
     defaultValues: {
-      titulo: '',
-      duracaoEmMinutos: '',
-      ano: '',
-      diretor: '',
-      poster: '',
-      category: '',
-      metascore: '',
-      genero: [],
-      roteiristas: [],
-      atores: [],
+      id: actualFilme?.id ? actualFilme.id : undefined,
+      titulo: actualFilme?.titulo ? actualFilme.titulo : '',
+      duracaoEmMinutos: actualFilme?.duracaoEmMinutos ? actualFilme.duracaoEmMinutos : 0,
+      ano: actualFilme?.ano ? actualFilme.ano : 0,
+      diretor: actualFilme?.diretor ? actualFilme.diretor : '',
+      poster: actualFilme?.poster ? actualFilme.poster : '',
+      category:  actualFilme?.category ? actualFilme.category : '',
+      metascore: actualFilme?.metascore ? actualFilme.metascore : 0,
+      genero: actualFilme?.genero ? actualFilme.genero : [],
+      roteiristas: actualFilme?.roteiristas ? actualFilme.roteiristas : [],
+      atores: actualFilme?.atores ? actualFilme.atores : [],
     },
   });
 
@@ -99,7 +112,7 @@ const FilmeForm = () => {
   }
 
   const onSubmit = (data: FilmeFormSchemaType) => {
-    console.log(data);
+    mutate(data as Filme);
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -159,7 +172,7 @@ const FilmeForm = () => {
             />
           </div>
           <FormLabel>Genero</FormLabel>
-          <div className="w-full border flex flex-wrap justify-center gap-2 rounded-lg">
+          <div className="w-full border flex p-1 flex-wrap justify-center gap-2 rounded-lg">
             {generos.map((genero, index) => (
               <Toggle
                 defaultPressed={getValues().genero.includes(genero)}

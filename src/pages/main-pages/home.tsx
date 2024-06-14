@@ -9,7 +9,7 @@ const HomePage = () => {
 
   const [detailModalOpen, setDetailModalOpen] = useState(false)
   const [selectedFilme, setSelectedFilme] = useState({} as Filme)
-  const {data, error, isLoading} = useAllFilmesData();
+  const {data, isLoading} = useAllFilmesData();
 
   const handleOpenDetailModal = (filme: Filme) => {
     setSelectedFilme(filme)
