@@ -1,6 +1,6 @@
 import Filme from "@/interfaces/Filme";
 import { deleteFilme } from "@/services/filme-service";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Bookmark, Pencil, Play, Star, X } from "lucide-react";
 import React from "react";
 import { toast } from "sonner";
@@ -12,12 +12,16 @@ import { Button } from "./ui/button";
 type FilmeDetailProps = {
   filme: Filme;
   editModeFunction: () => void;
+  setOpenModal: (open: boolean) => void;
 };
 
 const FilmeDetail: React.FC<FilmeDetailProps> = ({
   filme,
   editModeFunction,
+  setOpenModal
 }) => {
+
+  const queryC = useQueryClient();
 
 
   const {mutate} = useMutation({
@@ -26,6 +30,10 @@ const FilmeDetail: React.FC<FilmeDetailProps> = ({
       toast.success("Filme deletado com sucesso", {
         richColors: true,
       });
+      queryC.invalidateQueries({
+        queryKey: ['filmes-data']
+      });
+      setOpenModal(false);
     },
     onError: () => {
       toast.error("Erro ao deletar filme", {
@@ -55,13 +63,13 @@ const FilmeDetail: React.FC<FilmeDetailProps> = ({
               <X className="h-6 w-6" />
             </Button>
           </ConfirmActionDialog>
-          <Button variant={"outline"} className="h-12 w-12">
+          <Button variant={"outline"} className="h-12 w-12 hidden">
             <Play className="h-6 w-6" />
           </Button>
-          <Button variant={"outline"} className="h-12 w-12">
+          <Button variant={"outline"} className="h-12 w-12 hidden">
             <Bookmark className="h-6 w-6" />
           </Button>
-          <Button variant={"outline"} className="h-12 w-12">
+          <Button variant={"outline"} className="h-12 w-12 hidden">
             <Star className="h-6 w-6" />
           </Button>
         </div>

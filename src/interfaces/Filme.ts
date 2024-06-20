@@ -1,6 +1,6 @@
 interface Filme  {
-    id?: string,
-    titulo: string | null,
+    id?: number,
+    titulo: string,
     ano: number,
     duracaoEmMinutos: number,
     genero: string[],

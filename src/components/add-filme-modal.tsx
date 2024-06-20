@@ -13,7 +13,7 @@ const AddFilmeModal: React.FC<AddFilmeModalProps> = ({ children }) => {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className='w-[50%] h-[95%] items-end'>
-        <FilmeForm/>
+        <FilmeForm setOpenModal={setIsOpen}/>
       </DialogContent>
     </Dialog>
   );

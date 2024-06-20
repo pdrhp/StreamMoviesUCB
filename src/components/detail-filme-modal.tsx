@@ -41,13 +41,13 @@ const DetailFilmeModal: React.FC<DetailFilmeModalProps> = ({
     <Dialog open={open} onOpenChange={handleDismiss}>
       <DialogContent className={`${editMode || loadingTransition ? 'w-[50%] h-[90%]' : 'w-[60%] h-[70%]'} items-end`}>
         {editMode ? (
-          <FilmeForm actualFilme={filme}/>
+          <FilmeForm setOpenModal={handleDismiss} actualFilme={filme}/>
         ) : loadingTransition ? (
           <div className="w-full h-full flex items-center justify-center">
             <LoaderCircle className=" h-24 w-24 animate-spin" />
           </div>
         ) : (
-          <FilmeDetail editModeFunction={handleEditMode} filme={filme} />
+          <FilmeDetail setOpenModal={handleDismiss} editModeFunction={handleEditMode} filme={filme} />
         )}
       </DialogContent>
     </Dialog>

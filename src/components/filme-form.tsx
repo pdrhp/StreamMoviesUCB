@@ -1,7 +1,8 @@
 import { GENEROS } from "@/constants/generos";
-import { useSaveFilme } from "@/hooks/useSaveFilme";
 import Filme from "@/interfaces/Filme";
+import { createFilme, updateFilme } from "@/services/filme-service";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import React, { useState } from "react";
 import { ControllerRenderProps, useForm } from "react-hook-form";
@@ -21,7 +22,7 @@ import { Separator } from "./ui/separator";
 import { Toggle } from "./ui/toggle";
 
 const FilmeFormSchema = z.object({
-  id: z.string().optional(),
+  id: z.number().optional(),
   titulo: z.string(),
   ano: z.number(),
   duracaoEmMinutos: z.number(),
@@ -39,13 +40,24 @@ export type FilmeFormSchemaType = z.infer<typeof FilmeFormSchema>;
 
 type FilmeFormProps = {
   actualFilme?: Filme;
+  setOpenModal: (open: boolean) => void;
 }
 
-const FilmeForm: React.FC<FilmeFormProps> = ({actualFilme}) => {
+const FilmeForm: React.FC<FilmeFormProps> = ({actualFilme, setOpenModal}) => {
 
-  const {mutate} = useSaveFilme();
+  // const {mutate} = useSaveFilme();
 
-  console.log(actualFilme);
+  const queryc = useQueryClient();
+
+  const {mutate} = useMutation({
+    mutationFn: actualFilme?.id ? updateFilme : createFilme,
+    onSuccess: () => {
+      queryc.invalidateQueries({
+          queryKey: ['filmes-data'],
+      })
+    setOpenModal(false);
+  }
+  })
 
   const FilmeForm = useForm<FilmeFormSchemaType>({
     resolver: zodResolver(FilmeFormSchema),

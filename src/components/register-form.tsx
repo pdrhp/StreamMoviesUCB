@@ -2,6 +2,7 @@ import client from "@/services/client"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation } from "@tanstack/react-query"
 import { Loader } from "lucide-react"
+import React from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
@@ -26,7 +27,7 @@ type RegisterFormProps = {
     setActualTab: (tab: string) => void
 }
 
-const RegisterForm = ({setActualTab}) => {
+const RegisterForm: React.FC<RegisterFormProps> = ({setActualTab}) => {
 
     const registerForm = useForm<RegisterFormSchemaType>({
         resolver: zodResolver(registerFormSchema),

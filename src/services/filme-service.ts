@@ -9,7 +9,7 @@ export const getAllFilmes = async () => {
 }
 
 
-export const saveFilme = async (filme: Filme) => {
+export const createFilme = async (filme: Filme) => {
     const response = await client.post('/movies', filme);
 
     console.log(response);
@@ -17,8 +17,12 @@ export const saveFilme = async (filme: Filme) => {
     return response.data;
 }
 
-export const deleteFilme = async (id: string) => {
-    const response = await client.delete(`/movies/${id}`);
+export const updateFilme = async (filme: Filme) => {
+    const response = await client.put(`/movies/${filme.id}`, filme);
+    return response.data;
+}
 
+export const deleteFilme = async (id: number) => {
+    const response = await client.delete(`/movies/${id}`);
     return response.data;
 }
