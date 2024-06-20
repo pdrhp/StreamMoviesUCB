@@ -1,6 +1,9 @@
 import Filme from "@/interfaces/Filme";
-import { Pencil, Play, X } from "lucide-react";
+import { deleteFilme } from "@/services/filme-service";
+import { useMutation } from "@tanstack/react-query";
+import { Bookmark, Pencil, Play, Star, X } from "lucide-react";
 import React from "react";
+import { toast } from "sonner";
 import notFoundImage from "../assets/no-img.jpg";
 import ConfirmActionDialog from "./confirm-action-dialog";
 import FieldTitleValue from "./field-title-value";
@@ -15,6 +18,27 @@ const FilmeDetail: React.FC<FilmeDetailProps> = ({
   filme,
   editModeFunction,
 }) => {
+
+
+  const {mutate} = useMutation({
+    mutationFn: deleteFilme,
+    onSuccess: () => {
+      toast.success("Filme deletado com sucesso", {
+        richColors: true,
+      });
+    },
+    onError: () => {
+      toast.error("Erro ao deletar filme", {
+        richColors: true,
+      });
+    },
+  })
+
+  const handleDelete = () => {
+    console.log(filme.id);
+    mutate(filme.id!);
+  }
+
   return (
     <div className="h-[98%] max-h-[38rem] rounded-md flex">
       <div className="w-[70%] p-2 flex flex-col">
@@ -26,13 +50,19 @@ const FilmeDetail: React.FC<FilmeDetailProps> = ({
           >
             <Pencil className="h-6 w-6" />
           </Button>
-          <ConfirmActionDialog>
+          <ConfirmActionDialog confirmAction={handleDelete}>
             <Button variant={"outline"} className="h-12 w-12">
               <X className="h-6 w-6" />
             </Button>
           </ConfirmActionDialog>
           <Button variant={"outline"} className="h-12 w-12">
             <Play className="h-6 w-6" />
+          </Button>
+          <Button variant={"outline"} className="h-12 w-12">
+            <Bookmark className="h-6 w-6" />
+          </Button>
+          <Button variant={"outline"} className="h-12 w-12">
+            <Star className="h-6 w-6" />
           </Button>
         </div>
         <div className="h-[90%] flex flex-col gap-2 flex-wrap ">

@@ -29,7 +29,7 @@ const HomePage = () => {
 
   useEffect(() => {
     setGenerosSelected(selectedGeneros)
-  }, [selectedGeneros])
+  }, [selectedGeneros, setGenerosSelected])
 
 
   const handleOpenDetailModal = (filme: Filme) => {
@@ -39,7 +39,7 @@ const HomePage = () => {
 
   return (
     <div className="w-full h-full p-1 flex flex-col flex-wrap overflow-auto">
-      <div className="w-full h-[5%] gap-2 flex justify-center items-center">
+      <div className="w-full h-[5%] gap-2 flex justify-center overflow-x-auto items-center">
         {GENEROS.map((genero, index) => (
           <Toggle
             key={index}

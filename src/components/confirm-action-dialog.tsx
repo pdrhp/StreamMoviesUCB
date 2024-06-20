@@ -3,10 +3,12 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 
 type ConfirmActionDialogProps = {
   children: React.ReactNode;
+  confirmAction: () => void;
 };
 
 const ConfirmActionDialog: React.FC<ConfirmActionDialogProps> = ({
   children,
+  confirmAction
 }) => {
   return (
     <AlertDialog>
@@ -20,7 +22,7 @@ const ConfirmActionDialog: React.FC<ConfirmActionDialogProps> = ({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancelar</AlertDialogCancel>
-          <AlertDialogAction>Continuar</AlertDialogAction>
+          <AlertDialogAction onClick={() => confirmAction()}>Continuar</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
